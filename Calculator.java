@@ -2,6 +2,8 @@ package com.JWD04;
 
 import java.util.Scanner;
 
+import static java.lang.Math.pow;
+
 public class Calculator {
 
     private double firstOperand;
@@ -21,14 +23,14 @@ public class Calculator {
         while(process){
             menu();
             isCorrectOpType=calc.selectOperation();
-            if(isCorrectOpType) {
-                exit=calc.operationExecution(calc);
+            if(isCorrectOpType) {                         //если с типом операции все гуд
+                exit=calc.operationExecution(calc);       //выполняем ее
             }
-            if(!exit&&calc.success){
+            if(!exit&&calc.success){                             //выполнение прошло успешно и выход из проги не требуется
                 System.out.println(calc.result);
                 System.out.println("_________________________");
                 calc.success=false;
-            } else if (exit) process=false;
+            } else if (exit) process=false;         //Вите нужно выйти
 
         }
     }
@@ -46,16 +48,25 @@ public class Calculator {
           default:{
               System.out.println("Unknown operation");
               System.out.println("________________");
-              calc.success=false;
-              return false;}
+              calc.success=false;        //введенной операции не существует
+              return false;}             // выходим в меню
       }
       return exit;
     }
     private void RootExtraction() {
-
+        System.out.println("InputExample: 9^(1/2) - 9 2");
+        inputOperands();
+        if (this.success) {
+            double index=1.0/this.secondOperand;
+            this.result = pow(this.firstOperand ,index);
+        }
     }
     private void Exponentiation() {
-
+        System.out.println("InputExample: 9^2 - 9 2");
+        inputOperands();
+        if (this.success) {
+            this.result = pow(this.firstOperand ,this.secondOperand);
+        }
     }
     private void Division() {
         inputOperands();
