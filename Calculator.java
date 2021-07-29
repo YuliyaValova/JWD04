@@ -7,74 +7,109 @@ public class Calculator {
     private int firstOperand;
     private int secondOperand;
     private int operationType;
+    private int result;
+    private boolean success;
 
 
     public static void main(String[] args) {
         System.out.println("Welcome to this primitive calculator");
-        boolean process = true, correctInput=true;
-        double result=0;
+        boolean process = true,exit=false, isCorrectOpType=false;
         Calculator calc = new Calculator();
 
 
         while(process){
-            menu();.
-            correctInput=calc.selectOperation();
-            if(correctInput){
-                result=calc.operationExecution();
-                System.out.println(result);
-                System.out.println("_________________________");
+            menu();
+            isCorrectOpType=calc.selectOperation();
+            if(isCorrectOpType) {
+                exit=calc.operationExecution(calc);
             }
-
+            if(!exit&&calc.success){
+                System.out.println(calc.result);
+                System.out.println("_________________________");
+            } else if (exit) process=false;
 
         }
     }
 
-    private double operationExecution() {
-        double result=0;
+    private boolean operationExecution(Calculator calc) {
+      boolean exit=false;
       switch (this.operationType){
-          case 1: {result=this.firstOperand+this.secondOperand; break;}
-          case 2: {result=this.firstOperand-this.secondOperand; break;}
-          case 3: {result=this.firstOperand*this.secondOperand; break;}
-          case 4: {result=this.firstOperand/this.secondOperand; break;}
-          case 5: {}
-          case 6: {}
-          default: System.out.println("Неверная операция"); return -1;
+          case 1: {calc.Addition(); break;}
+          case 2: {calc.Subtraction(); break;}
+          case 3: {calc.Multiplication(); break;}
+          case 4: {calc.Division(); break;}
+          case 5: {calc.Exponentiation(); break;}
+          case 6: {calc.RootExtraction(); break;}
+          case 7: {exit=true; break;}
+          default:{System.out.println("Unknown operation"); System.out.println("________________"); return false;}
       }
-      return result;
+      return exit;
     }
+    private void RootExtraction() {
 
+    }
+    private void Exponentiation() {
 
+    }
+    private void Division() {
+        inputOperands();
+        if (success) {
+            this.result = this.firstOperand / this.secondOperand;
+        }
+    }
+    private void Multiplication() {
+        inputOperands();
+        if (success) {
+            this.result = this.firstOperand * this.secondOperand;
+        }
+    }
+    private void Subtraction() {
+        inputOperands();
+        if (success) {
+            this.result = this.firstOperand - this.secondOperand;
+        }
+    }
+    private void Addition() {
+        inputOperands();
+        if (success) {
+            this.result = this.firstOperand + this.secondOperand;
+        }
+    }
     private boolean selectOperation() {
         Scanner scanner = new Scanner(System.in);
         try {
             System.out.println("Select an operation from the menu.");
-            this.operationType = Integer.parseInt(scanner.next()) ;
+            this.operationType = Integer.parseInt(scanner.next());
         } catch (Exception e) {
             System.out.println("You have selected an operation that is not listed.");
             System.out.println("_____________________");
             return false;
         }
-
-        try {
-            System.out.println("Input values for the operation. Ex: value1 value2");
-            this.firstOperand = Integer.parseInt(scanner.next());
-            this.secondOperand = Integer.parseInt((scanner.next()));
-        }catch (Exception e2){
-            System.out.println("You entered not numbers. The calculator can only work with numbers");
-            System.out.println("_____________________");
-            return false;
-        }
-        if (this.operationType==4 && this.secondOperand==0) {
-            System.out.println("Division by zero. Unfeasible operation");
-            System.out.println("_____________________");
-            return false;
-        }
-        System.out.println("_____________________");
         return true;
     }
+    private void inputOperands() {
+       Scanner scanner = new Scanner(System.in);
+        this.success=false;
+        while (!this.success) {
+            try {
+                System.out.println("Input values for the operation. Ex: value1 value2");
+                this.firstOperand = Integer.parseInt(scanner.next());
+                this.secondOperand = Integer.parseInt((scanner.next()));
+            } catch (Exception e2) {
+                System.out.println("You entered not numbers. The calculator can only work with numbers");
+                System.out.println("_____________________");
+                this.success = false;
+            }
+            if (this.operationType == 4 && this.secondOperand == 0) {
+                System.out.println("Division by zero. Unfeasible operation");
+                System.out.println("_____________________");
+                this.success = false;
+            }
+            System.out.println("_____________________");
+            this.success = true;
+        }
 
-
-
+    }
     private static void menu() {
         System.out.println("Calculator functions:");
         System.out.println("1. Addition");
