@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Calculator {
 
-    private int firstOperand;
-    private int secondOperand;
+    private double firstOperand;
+    private double secondOperand;
     private int operationType;
-    private int result;
+    private double result;
     private boolean success;
 
 
@@ -15,6 +15,7 @@ public class Calculator {
         System.out.println("Welcome to this primitive calculator");
         boolean process = true,exit=false, isCorrectOpType=false;
         Calculator calc = new Calculator();
+
 
 
         while(process){
@@ -26,6 +27,7 @@ public class Calculator {
             if(!exit&&calc.success){
                 System.out.println(calc.result);
                 System.out.println("_________________________");
+                calc.success=false;
             } else if (exit) process=false;
 
         }
@@ -41,7 +43,11 @@ public class Calculator {
           case 5: {calc.Exponentiation(); break;}
           case 6: {calc.RootExtraction(); break;}
           case 7: {exit=true; break;}
-          default:{System.out.println("Unknown operation"); System.out.println("________________"); return false;}
+          default:{
+              System.out.println("Unknown operation");
+              System.out.println("________________");
+              calc.success=false;
+              return false;}
       }
       return exit;
     }
@@ -53,25 +59,25 @@ public class Calculator {
     }
     private void Division() {
         inputOperands();
-        if (success) {
+        if (this.success) {
             this.result = this.firstOperand / this.secondOperand;
         }
     }
     private void Multiplication() {
         inputOperands();
-        if (success) {
+        if (this.success) {
             this.result = this.firstOperand * this.secondOperand;
         }
     }
     private void Subtraction() {
         inputOperands();
-        if (success) {
+        if (this.success) {
             this.result = this.firstOperand - this.secondOperand;
         }
     }
     private void Addition() {
         inputOperands();
-        if (success) {
+        if (this.success) {
             this.result = this.firstOperand + this.secondOperand;
         }
     }
@@ -93,20 +99,21 @@ public class Calculator {
         while (!this.success) {
             try {
                 System.out.println("Input values for the operation. Ex: value1 value2");
-                this.firstOperand = Integer.parseInt(scanner.next());
-                this.secondOperand = Integer.parseInt((scanner.next()));
+                this.firstOperand = Double.parseDouble(scanner.next());
+                this.secondOperand = Double.parseDouble((scanner.next()));
+                this.success = true;
             } catch (Exception e2) {
                 System.out.println("You entered not numbers. The calculator can only work with numbers");
-                System.out.println("_____________________");
                 this.success = false;
+                scanner.nextLine();
+
             }
             if (this.operationType == 4 && this.secondOperand == 0) {
                 System.out.println("Division by zero. Unfeasible operation");
-                System.out.println("_____________________");
                 this.success = false;
             }
+
             System.out.println("_____________________");
-            this.success = true;
         }
 
     }
