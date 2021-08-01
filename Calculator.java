@@ -26,6 +26,8 @@ public class Calculator {
                 isExitSelected = calc.operationExecution();       //выполняем ее
             }
             if (!isExitSelected && calc.success) {                             //выполнение прошло успешно и выход из проги не требуется
+              //System.out.printf("%.3f", calc.result);
+                // System.out.println();
                 System.out.println(calc.result);
                 System.out.println("_________________________");
                 calc.success = false;
@@ -78,15 +80,16 @@ public class Calculator {
     private void rootExtraction() {
         System.out.println("InputExample for 9^(1/2): 9 2");
         inputOperands();
-        while (firstOperand < 0) {
+        while (firstOperand < 0 && secondOperand % 2 == 0) {
             System.out.println("You cannot use a negative number in this operation :/");
             inputOperands();
         }
-        double index = 1.0 / secondOperand;
-        result = pow(firstOperand, index);
-
+        if (firstOperand > 0) {
+            result = Math.exp(Math.log(firstOperand) / secondOperand);
+        } else {
+            result = -Math.exp(Math.log(-firstOperand) / secondOperand);
+        }
     }
-
     private void exponentiation() {
         System.out.println("InputExample for 9^2: 9 2");
         inputOperands();
